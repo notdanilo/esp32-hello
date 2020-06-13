@@ -38,7 +38,7 @@ git clone --recursive https://github.com/notdanilo/esp32-hello/
 or if you already have this repository cloned, you can initialize it with:
 
 ```bash
-git submodule update --initialize --recursive
+git submodule update --init --recursive
 ```
 
 Now you are ready to build the project:
