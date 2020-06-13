@@ -2,24 +2,21 @@
 
 #set -euo pipefail
 
-if [[ -z ]]
-
 chip=${1}
 profile=${2}
 
 if [[ -z "${chip}" ]]; then
   echo "Chip argument missing."
   echo "Try ./build.sh esp32 release"
+  exit
 fi
 
 if [[ -z "${profile}" ]]; then
-  echo "Chip argument missing."
+  echo "Profile argument missing."
   echo "Try ./build.sh esp32 release"
+  exit
 fi
 
-echo $chip
-
-exit
 serial_port=$($(pwd)/detect_serial_port.sh)
 
 set -euo pipefail
