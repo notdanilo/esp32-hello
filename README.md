@@ -7,7 +7,7 @@ This fork introduces:
 * Improved documentation (with information I thought it was missing)
 * Better build system with separated `build`, `deploy` and `monitor`ing commands
 * TODO: Better project organization so it can be used as a template for esp32 development with Rust
-* TODO: Test it with `esp8266`, but I suspect it isn't a straightfoward process.
+* TODO: Support `esp8266`, but I suspect it isn't a straightfoward process.
 
 # Notice
 
