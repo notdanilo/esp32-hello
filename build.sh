@@ -1,16 +1,30 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+#set -euo pipefail
 
-chip="${1:-esp32}"
+if [[ -z ]]
 
+chip=${1}
+profile=${2}
+
+if [[ -z "${chip}" ]]; then
+  echo "Chip argument missing."
+  echo "Try ./build.sh esp32 release"
+fi
+
+if [[ -z "${profile}" ]]; then
+  echo "Chip argument missing."
+  echo "Try ./build.sh esp32 release"
+fi
+
+echo $chip
+
+exit
 serial_port=$($(pwd)/detect_serial_port.sh)
 
 set -euo pipefail
 
 target="xtensa-${chip}-none-elf"
-
-profile=release
 
 IDF_PATH="$(pwd)/esp-idf"
 export IDF_PATH
