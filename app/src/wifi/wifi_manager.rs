@@ -19,6 +19,9 @@ fn ssid_and_password(params: &[u8]) -> (Option<Cow<str>>, Option<Cow<str>>) {
   (ssid, password)
 }
 
+use esp32_hal::gpio::*;
+use embedded_hal::digital::v2::OutputPin;
+
 pub async fn handle_request(
   mut client: TcpStream, addr: SocketAddr,
   ap_config: &ApConfig,
@@ -26,6 +29,8 @@ pub async fn handle_request(
   mut ap_running: Option<ApRunning>, mut sta_running: Option<StaRunning>,
 ) -> io::Result<(Option<ApRunning>, Option<StaRunning>)> {
   println!("Handling request from {} …", addr);
+
+  let mut gpio = GPIO22::into_input_output();
 
   let mut buf: [u8; 1024] = [0; 1024];
   let len = client.read(&mut buf).unwrap();
@@ -41,6 +46,20 @@ pub async fn handle_request(
   if let Ok(httparse::Status::Complete(res)) = status {
 
     match req.path {
+      Some("/on") => {
+        gpio.set_high().unwrap();
+        writeln!(client, "HTTP/1.1 200 OK")?;
+        writeln!(client, "Content-Type: text/plain")?;
+        writeln!(client)?;
+        writeln!(client, "on")?;
+      },
+      Some("/off") => {
+        gpio.set_low().unwrap();
+        writeln!(client, "HTTP/1.1 200 OK")?;
+        writeln!(client, "Content-Type: text/plain")?;
+        writeln!(client)?;
+        writeln!(client, "off")?;
+      },
       Some("/") => {
         writeln!(client, "HTTP/1.1 200 OK")?;
         writeln!(client, "Content-Type: text/html")?;
