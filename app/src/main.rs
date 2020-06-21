@@ -19,7 +19,7 @@ pub fn app_main() {
 }
 
 fn rust_blink_and_write() -> Result<!, EspError> {
-//  blink::start_blinker();
+  //blink::start_blinker();
   wifi::start_wifi()?;
 
   loop {

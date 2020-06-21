@@ -43,18 +43,14 @@ pub fn start_wifi() -> Result<(), EspError> {
 
             let mut wifi_storage = namespace;
 
-            let ssid = wifi_storage.get::<String>("ssid").ok();
-            let password = wifi_storage.get::<String>("password").ok();
-
-            let ssid     = Some(String::from("AP Amarelo"));
-            let password = Some(String::from("demogroni"));
+            let ssid     = Some(String::from("YOUR SSID"));
+            let password = Some(String::from("YOUR PASSWORD"));
 
             let mut ap_running = None;
             let mut sta_running = None;
 
             if let (Some(ssid), Some(password)) = (ssid, password) {
                 let sta_config = StaConfig::builder()
-                    .scan_method(ScanMethod::Full)
                     .ssid(&ssid)
                     .password(&password)
                     .build();
