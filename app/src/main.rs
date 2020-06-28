@@ -3,15 +3,19 @@
 
 extern crate alloc;
 
+mod blink;
+// mod wifi;
+// mod beacon;
+// mod gpio;
+
 use std::thread::sleep;
 use std::time::Duration;
 
-use esp32_hal::EspError;
-use crate::wifi::WifiClient;
+// use esp32_hal::EspError;
 use futures::executor::block_on;
 
-mod blink;
-mod wifi;
+// use wifi::WifiClient;
+// use beacon::Beacon;
 
 #[no_mangle]
 pub fn app_main() {
@@ -20,33 +24,30 @@ pub fn app_main() {
   }
 }
 
+type EspError = u32;
+
 fn main() -> Result<!, EspError> {
   block_on(async_main())?;
   loop {}
 }
 
 async fn async_main() -> Result<!, EspError> {
-  let ssid     = "AP Amarelo".to_string();
-  let password = "demogroni".to_string();
-  let wifi = WifiClient::new(&ssid, &password).await.expect("Couldn't connect");
-  println!("Connected to {} with {}", ssid, wifi.address());
+  // let ssid     = "AP Amarelo".to_string();
+  // let password = "demogroni".to_string();
+  // let wifi = WifiClient::new(&ssid, &password).await.expect("Couldn't connect");
+  // println!("Connected to {} with {}", ssid, wifi.address());
+  //
+  // let beacon = Beacon::new(34254).expect("Couldn't create beacon");
 
-  sleep(Duration::from_secs(5));
-
-  let socket = std::net::UdpSocket::bind("0.0.0.0:34254").expect("Couldn't bind socket");
-  socket.set_broadcast(true).expect("Couldn't enable broadcast receiving");
+  // std::thread::spawn(move || {
+  //   gpio::start();
+  // });
+  println!("Starting blinker");
+//  use std::fmt::Write;
+  blink::start_blinker();
 
   loop {
-    match socket.send_to("Hello".as_bytes(), "192.168.15.60:34254") {
-      Ok(_)  => {
-        let mut message : [u8;8] = [0; 8];
-        match socket.recv_from(&mut message) {
-          Ok((size,address)) => println!("Received {} bytes from {}", size, address),
-          Err(e)             => println!("Error: {}", e)
-        }
-      },
-      Err(e) => println!("{:#?}", e)
-    }
-    sleep(Duration::from_secs(1));
+    // beacon.run();
+    sleep(Duration::from_millis(1000))
   }
 }

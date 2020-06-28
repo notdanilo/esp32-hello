@@ -15,7 +15,7 @@ use wifi_manager::*;
 mod dns;
 
 pub struct WifiClient {
-    address : Ipv4Addr
+    station : StaRunning
 }
 
 impl WifiClient {
@@ -29,14 +29,13 @@ impl WifiClient {
             .build();
 
         let station = wifi.into_sta(&sta_config);
+        let station = station.connect().await?;
 
-        let StaRunning(ip) = station.connect().await?;
-        let address = Ipv4Addr::from(ip);
-
-        Ok(Self{address})
+        Ok(Self{station})
     }
 
-    pub fn address(&self) -> &Ipv4Addr {
-        &self.address
+    pub fn address(&self) -> Ipv4Addr {
+        let StaRunning(ip) = self.station;
+        Ipv4Addr::from(ip)
     }
 }
