@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-#set -euo pipefail
-
 chip=${1}
 profile=${2}
 

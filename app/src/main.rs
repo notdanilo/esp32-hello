@@ -43,8 +43,7 @@ async fn async_main() -> Result<!, EspError> {
   //   gpio::start();
   // });
   println!("Starting blinker");
-//  use std::fmt::Write;
-  blink::start_blinker();
+  blink::start_blinker(50);
 
   loop {
     // beacon.run();

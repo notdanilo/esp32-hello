@@ -37,7 +37,7 @@ impl GPIO {
     }
 }
 
-pub fn start_blinker() {
+pub fn start_blinker(millis : u64) {
     let mut gpio = GPIO::new(22).expect("Couldn't create GPIO");
 
     thread::Builder::new()
@@ -45,9 +45,9 @@ pub fn start_blinker() {
         .spawn(move || {
             loop {
                 gpio.set_high();
-                sleep(Duration::from_millis(250));
+                sleep(Duration::from_millis(millis));
                 gpio.set_low();
-                sleep(Duration::from_millis(250));
+                sleep(Duration::from_millis(millis));
             }
         })
         .unwrap();

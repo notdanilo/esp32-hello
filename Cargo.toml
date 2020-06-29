@@ -1,9 +1,6 @@
 [workspace]
 members = [
-  "dnsparse",
-  "esp-idf-bindgen",
-  "esp32-hal",
-  "app",
+  "app"
 ]
 
 [profile.dev]
